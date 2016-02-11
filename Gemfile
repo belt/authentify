@@ -11,8 +11,6 @@ group :development do
   gem 'method_profiler'
   gem 'rack-timer', require: false
   gem 'ruby-prof', require: false
-
-  gem 'rdoc'
 end
 
 group :development, :test do

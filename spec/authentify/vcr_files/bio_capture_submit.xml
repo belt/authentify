@@ -1,0 +1,22 @@
+<AuthentXML version="1.0" xmlns="http://xml.authentify.net/MessageSchema.xml">
+  <header>
+    <tsoid>AuthentifyGem</tsoid>
+    <asid>Customer_Identifier</asid>
+    <application>BioCapture</application>
+    <account></account>
+    <licenseKey>Service License</licenseKey>
+  </header>
+  <body>
+    <request>
+      <data xmlns="http://xml.authentify.net/CommonDataSchema.xml">
+        <language>en-us</language>
+        <phoneNumber>555.555.5555</phoneNumber>
+        <namedData>
+          <dataItem name="confirmNumberOne">1234567890</dataItem>
+          <dataItem name="confirmNumberTwo">0123456789</dataItem>
+          <dataItem name="confirmNumberThree">5553339876</dataItem>
+        </namedData>
+      </data>
+    </request>
+  </body>
+</AuthentXML>

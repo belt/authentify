@@ -1,0 +1,44 @@
+# Authentify Account (session password)
+authentify_account:
+  development: 'noreply+authentify.gem@authentify.com'
+  test: 'noreply+authentify.gem@authentify.com'
+  ci: 'noreply+authentify.gem@authentify.com'
+
+# Site Owner ID as assigned by Authentify
+authentify_tsoid: 'AuthentifyGem'
+
+# Authentify license
+authentify_site_license:
+  development: 'changeth-isto-some-thin-ghexadecimal'
+  test: 'Service License'
+  ci: 'Service License'
+
+# Authentify session URI
+authentify_session_uri:
+  development: 'https://sandbox.authentify.com/AuthentifyGem_changeth-isto-some-thin-ghexadecimal/'
+  test: 'https://sandbox.authentify.com/AuthentifyGem_changeth-isto-some-thin-ghexadecimal/'
+  ci: 'https://sandbox.authentify.com/AuthentifyGem_changeth-isto-some-thin-ghexadecimal/'
+
+# Authentify DTDs URIs
+authentify_message_dtd: 'http://xml.authentify.net/MessageSchema.xml'
+authentify_data_dtd: 'http://xml.authentify.net/CommonDataSchema.xml'
+
+# Authentify WSDL URI
+authentify_wsdl_uri: 'http://xml.authentify.net/AuthentifyService'
+
+# Authentify SOAP Request API URI
+authentify_api_request_uri:
+  development: 'https://imp.authentify.com/s2s/default.asp'
+  test: 'https://imp.authentify.com/s2s/default.asp'
+  ci: 'https://imp.authentify.com/s2s/default.asp'
+
+# Authentify SOAP Poll API URI
+authentify_api_poll_uri:
+  development: 'https://imp1.authentify.com/s2s/default.asp'
+  test: 'https://imp1.authentify.com/s2s/default.asp'
+  ci: 'https://imp1.authentify.com/s2s/default.asp'
+
+authentify_environment:
+  development: 'imp'
+  test: 'imp'
+  ci: 'imp'

@@ -238,7 +238,6 @@ DEPENDENCIES
   pry-byebug
   rack-timer
   rake (>= 10.4.2)
-  rdoc
   reek
   roodi
   rspec
