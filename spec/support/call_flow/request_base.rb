@@ -8,6 +8,15 @@ RSpec.shared_examples_for 'an authentify request biometric spec' do
   include_examples 'an authentify biometric capture request'
 
   context 'request bioauthenticate' do
+    # TODO: refactor
+    APIExampleConfig = 'config/authentify_api_config.example.yml'.freeze
+    APIConfigFile = 'config/authentify_api_config.yml'.freeze
+    APIConfig = if File.exist? APIConfigFile
+                  YAML.load_file APIConfigFile
+                else
+                  YAML.load_file APIExampleConfig
+                end
+
     let(:request_biometric_response) do
       response_xml = Authentify::CallFlow::RequestResponseFactory.new.to_soap_xml
       Gyoku.xml Nori.new.parse(response_xml)
@@ -48,7 +57,7 @@ RSpec.shared_examples_for 'an authentify request biometric spec' do
         end
 
         it 'should yield a tsoid' do
-          expect(subject.tsoid).to eq 'AuthentifyGem'
+          expect(subject.tsoid).to eq APIConfig['authentify_tsoid']
         end
 
         it 'should yield an asid' do

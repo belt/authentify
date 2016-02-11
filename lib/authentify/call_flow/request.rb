@@ -4,7 +4,8 @@ module Authentify
   module CallFlow
     # generate SOAP-XML request-for-bio_capture, process results
     class Request < Authentify::Base
-      attr_reader :identifying_data, :client
+      attr_reader :client
+      attr_accessor :identifying_data
 
       def initialize(opts = {})
         @options = opts
