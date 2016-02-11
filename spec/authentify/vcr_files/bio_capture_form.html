@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <input name="__RequestVerificationToken" type="hidden" value="cnc36zampS8NE42LQugsOr6aZ1qgNSdqgAguPBrAxhaPth+SICBhHNzFFAsTMSF12OLcyHpHf2r7vx08jrgP4KNlVNGOYzG1hOz8BCFUHTxM6RMKSJqXvcTQfcvupe7yHDspvji8wxqgtYQJQprzV3NNJrA=" />
+    <title>Sandbox: AuthentifyGem</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link href="/Content/Sandbox/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/Sandbox/css/custom.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/Sandbox/css/prettify.css" rel="stylesheet" type="text/css" />
+    <script src="/Scripts/jquery.js" type="text/javascript"></script>
+    <script src="/Scripts/underscore.js" type="text/javascript"></script>
+    <script src="/Content/Sandbox/js/bootstrap.js" type="text/javascript"></script>
+    <script src="/Scripts/backbone.js" type="text/javascript"></script>
+    <script src="/Scripts/prettify.js" type="text/javascript"></script>
+    <script src="/Scripts/sandbox.js" type="text/javascript"></script>
+    <script src="/Scripts/apps.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="navbar navbar-fixed-top .brand">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand">Authentify Sandbox</a>
+                <div class="nav-collapse">
+                    <ul class="nav" id="MainMenu">
+                        <!-- Main Nav -->
+                    </ul>
+                    <ul id="logout" class="nav pull-right">
+                        <li><a id="tooltiptoggle" href="javascript:void(0);"></a></li>
+                        <li><a id="logoutlink" href="#">Logout</a> </li>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="2CHKmenu" class="subnav subnav-fixed">
+        <ul class="nav nav-pills" id="SubMenu">
+            <!-- Active sandbox group menu -->
+        </ul>
+    </div>
+<!--div style="background-color: red; height:18px; color: #ffffff; text-align: center; vertical-align:text-bottom;padding:10px; font-weight: bolder;" class="navbar-fixed-bottom">
+NOTICE: The Sandbox will be unavailable from 6/6/2014 at 12PM Central U.S. until 6/10/2014 at 8AM Central US.
+</div-->
+<!--div style="background-color: red; height:18px; color: #ffffff; text-align: center; vertical-align:text-bottom;padding:10px; font-weight: bolder;" class="navbar-fixed-bottom">
+NOTICE: The Implementation environment will be unavailable on Aug 15, 2014 due to scheduled maintenance.
+</div-->
+    <div class="container maincontainer">
+        <div class="row">
+            <div class="span8">
+
+<script type="text/javascript">
+    // Sandbox settings for this skin
+    skin = {
+        enterprise: "AuthentifyGem_changeth-isto-some-thin-ghexadecimal", // Skin name from Sandbox DB
+        tooltips: true, // Show tool tips on input and textarea elements
+
+        show_twochk: false,  // Show "2CHK" in top menu
+        show_ooba: false, // Show "OOBA" in top menu
+        show_data: false, // Show "Data Services" in top menu
+        show_bio: false, // Show "Voice Biometrics" in top menu
+
+        show_custom: true, // Show "Custom" in top menu
+
+        default_menu: "Custom", // Default menu on successful login
+        default_app: "BioCapture", // Default app/submenu item on successful login
+
+        tsoid: "AuthentifyGem", // Authentify TSOID to use for non-Custom Sandbox apps
+        account: "", // Authentify account to use for non-Custom Sandbox apps
+        environment: "imp" // Authentify service environment for non-Custom Sandbox apps
+   };
+
+    // Describe custom menu items inside the returned array
+    function Custom() {
+        return [
+			{
+				title: "BioCapture",
+				hashname: "biocapture",
+				enabled: true,
+				selector: "#BioCapture",
+				request: {
+					tsoid: skin.tsoid,
+					_environment: getEnvironment(),
+					asid: $("#biocapture_ASID").val(),
+					application: "BioCapture",
+					language: $("#biocapture_language").val(),
+					account: getAccount(),
+					phoneNumber: $("#biocapture_number").val(),
+					namedData: [["confirmNumberOne", $("#biocapture_confirm1").val()],
+					["confirmNumberTwo", $("#biocapture_confirm2").val()],
+					["confirmNumberThree", $("#biocapture_confirm3").val()]]
+				}
+			},
+			{
+				title: "BioVerify",
+				hashname: "bioverify",
+				enabled: true,
+				selector: "#BioVerify",
+				request: {
+					tsoid: skin.tsoid,
+					_environment: getEnvironment(),
+					asid: $("#bioverify_ASID").val(),
+					application: "BioVerify",
+					language: $("#bioverify_language").val(),
+					VID: $("#bioverify_vid").val(),
+					account: getAccount(),
+					phoneNumber: $("#bioverify_number").val(),
+					namedData: [["confirmNumberOne", $("#bioverify_confirm1").val()],
+					["confirmNumberTwo", $("#bioverify_confirm2").val()],
+					["confirmNumberThree", $("#bioverify_confirm3").val()]
+					//					["confirmNumberFour", $("#bioverify_confirm4").val()]
+]
+				}
+			}
+		];
+    }
+    // Initialize Sandbox
+    initSandbox();
+</script>
+<!-- Place HTML here for the accompanying custom menu item.  Be sure to include a style attribute like so:
+     style="display: none;"  -->
+<div id="BioCapture" class="app-parameters">
+    <form id="form_biocapture" class="form-horizontal">
+    <fieldset>
+        <legend>BioCapture</legend>
+        <div class="control-group">
+            <label class="control-label" for="phonenumber">
+                Phone Number</label>
+            <div class="controls">
+                <input id="biocapture_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Use 'x' to dial extensions. Examples: <br />+1 773 555 5555<br />+44 02012345678x1234"
+                    data-original-title="Phone Number" />
+                <p class="help-block">
+                    Phone number to dial</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="ASID">
+                ASID</label>
+            <div class="controls">
+                <input id="biocapture_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                    rel="popover" data-original-title="ASID" />
+                <p class="help-block">
+                    Authentify Subject ID</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="Language">
+                Language
+            </label>
+            <div class="controls">
+                <input id="biocapture_language" class="span2" type="text" value= "en-us"
+                data-content="Language-English" data-original-title="LANGUAGE" />
+                </input>
+                <p class="help-block">
+                    Language to place call as (ISO-639 format)</p>
+            </div>
+        </div>
+        <div class="control-group bio-confirm" id="biocapture1">
+            <label class="control-label" for="Confirmation Number 1">
+                Confirmation Number 1
+            </label>
+            <div class="controls">
+                <input id="biocapture_confirm1" class="span2 tip" type="tel" value="5837490312" data-content="One of three ten-digit sequences used to build the voice print. Confirmation numbers should contain all 10-15 digits in random order, with no repeating digits, to maximize print strength."
+                    data-original-title="Confirmation Number" />
+                <p class="help-block">
+                    First confirmation number to be spoken</p>
+            </div>
+        </div>
+        <div class="control-group bio-confirm" id="biocapture2">
+            <label class="control-label" for="Confirmation Number 2">
+                Confirmation Number 2
+            </label>
+            <div class="controls">
+                <input id="biocapture_confirm2" class="span2 tip" type="tel" value="2130947385" data-content="One of three ten-digit sequences used to build the voice print. Confirmation numbers should contain all 10-15 digits in random order, with no repeating digits, to maximize print strength."
+                    data-original-title="Confirmation Number" />
+                <p class="help-block">
+                    Second confirmation number to be spoken</p>
+            </div>
+        </div>
+        <div class="control-group bio-confirm" id="biocapture3">
+            <label class="control-label" for="Confirmation Number 3">
+                Confirmation Number 3
+            </label>
+            <div class="controls">
+                <input id="biocapture_confirm3" class="span2 tip" type="tel" value="8573204169" data-content="One of three ten-digit sequences used to build the voice print. Confirmation numbers should contain all 10-15 digits in random order, with no repeating digits, to maximize print strength."
+                    data-original-title="Confirmation Number" />
+                <p class="help-block">
+                    Third and final confirmation number to be spoken</p>
+            </div>
+        </div>
+    </fieldset>
+    </form>
+</div>
+<div id="BioVerify" class="app-parameters">
+    <form id="form_bioverify" class="form-horizontal">
+    <fieldset>
+        <legend>BioVerify</legend>
+        <div class="control-group">
+            <label class="control-label" for="phonenumber">
+                Phone Number</label>
+            <div class="controls">
+                <input id="bioverify_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Use 'x' to dial extensions. Examples: <br />+1 773 555 5555<br />+44 02012345678x1234"
+                    data-original-title="Phone Number" />
+                <p class="help-block">
+                    Phone number to dial</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="ASID">
+                ASID</label>
+            <div class="controls">
+                <input id="bioverify_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                    rel="popover" data-original-title="ASID" />
+                <p class="help-block">
+                    Authentify Subject ID</p>
+            </div>
+        </div>
+         <div class="control-group">
+            <label class="control-label" for="Language">
+                Language
+            </label>
+            <div class="controls">
+                <input id="biocapture_language" class="span2" type="text" value= "en-us"
+                data-content="Language-English" data-original-title="LANGUAGE" />
+                </input>
+                <p class="help-block">
+                    Language to place call as (ISO-639 format)</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="VID">
+                Voice Print ID (VID)
+            </label>
+            <div class="controls">
+                <input id="bioverify_vid" class="span4 vid tip" type="text" data-content="User's VID value goes here.  VIDs are a 38-character identifier value of an enrolled  user's voice print, provided to you after a successful biometric enrollment via the BioCapture application."
+                    data-original-title="VID" />
+                <p class="help-block">
+                    Voice print ID (38-character GUID) to compare callee against</p>
+            </div>
+        </div>
+        <div class="control-group bio-confirm" id="bioverify1">
+            <label class="control-label" for="Confirmation Number 1">
+                Confirmation Number 1
+            </label>
+            <div class="controls">
+                <input id="bioverify_confirm1" class="span2 tip" type="tel" value="5837490312" data-content="One of four ten-digit sequences used to verify a user's voice print. Confirmation numbers should contain all 10 digits in random order, with no repeating digits, to provide the Biometric engine with as much information to match against as possible."
+                    data-original-title="Confirmation Number" />
+                <p class="help-block">
+                    Confirmation number to be spoken on first print match attempt</p>
+            </div>
+        </div>
+        <div class="control-group bio-confirm" id="bioverify2">
+            <label class="control-label" for="Confirmation Number 2">
+                Confirmation Number 2
+            </label>
+            <div class="controls">
+                <input id="bioverify_confirm2" class="span2 tip" type="tel" value="2130947385" data-content="One of four ten-digit sequences used to verify a user's voice print. Confirmation numbers should contain all 10 digits in random order, with no repeating digits, to provide the Biometric engine with as much information to match against as possible."
+                    data-original-title="Confirmation Number" />
+                <p class="help-block">
+                    Confirmation number to be spoken on second print match attempt</p>
+            </div>
+        </div>
+        <div class="control-group bio-confirm" id="bioverify3">
+            <label class="control-label" for="Confirmation Number 3">
+                Confirmation Number 3
+            </label>
+            <div class="controls">
+                <input id="bioverify_confirm3" class="span2 tip" type="tel" value="8573204169" data-content="One of four ten-digit sequences used to verify a user's voice print. Confirmation numbers should contain all 10 digits in random order, with no repeating digits, to provide the Biometric engine with as much information to match against as possible."
+                    data-original-title="Confirmation Number" />
+                <p class="help-block">
+                    Confirmation number to be spoken on third print match attempt</p>
+            </div>
+        </div>
+        <!--div class="control-group bio-confirm" id="bioverify4">
+            <label class="control-label" for="Confirmation Number 4">
+                Confirmation Number 4
+            </label>
+            <div class="controls">
+                <input id="bioverify_confirm4" class="span2 tip" type="tel" value="2549763081" data-content="One of four ten-digit sequences used to verify a user's voice print. Confirmation numbers should contain all 10 digits in random order, with no repeating digits, to provide the Biometric engine with as much information to match against as possible."
+                    data-original-title="Confirmation Number" />
+                <p class="help-block">
+                    Confirmation number to be spoken on fourth and final print match attempt</p>
+            </div>
+        </div-->
+    </fieldset>
+    </form>
+</div>
+
+                <div id="Login">
+                    <legend>Login</legend>
+                    <p>
+                        Please log in to begin testing.</p>
+                    <form id="login_form" class="form-horizontal form-inline" onsubmit="return false;">
+                    <div class="control-group">
+                        <label class="control-label" for="phonenumber">
+                            Login:</label>
+                        <div class="controls">
+                            <input id="login_box" class="span4" type="email" />
+                            <button class="btn" type="submit" id="login_button">
+                                Go</button>
+                            <p class="help-block">
+                                Login provided by Authentify</p>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div id="2CHKassociationcall" class="app-parameters">
+                    <form id="form_assoccall" class="form-horizontal">
+                    <fieldset>
+                        <legend>2CHK Association (PhoneCall)</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="assoc_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Use 'x' to dial extensions. Examples: <br />+1 773 555 5555<br />+44 02012345678x1234"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone number to dial</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="assoc_asid" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="sessionTag">
+                                SessionTag</label>
+                            <div class="controls">
+                                <input id="assoc_sessionTag" class="span3 tip sessionTag" type="text" data-content="Generated by the enterprise with a unique value for each new session (transaction) to a given 2CHK Client association. Used by the Authentify service to differentiate between new requests for the 2CHK Client rather than re-sends of a previous request.  For the Sandbox, this field is pre-populated."
+                                    data-original-title="SessionTag" />
+                                <p class="help-block">
+                                    Unique Customer Transaction ID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="message">
+                                Association Detail</label>
+                            <div class="controls">
+                                <textarea id="assoc_detail" class="span5 tip" rows="3" data-content="256-character field to be displayed on the Association Info dialog box on the 2CHK client.<br />Example: For assistance, questions, or comments, please contact our customer support hotline at 1-800-555-1234"
+                                    data-original-title="Association Detail">For assistance, questions, or comments, please contact our customer support hotline at 1-800-555-1234</textarea>
+                                <p class="help-block">
+                                    Text to be displayed in the Association Info dialog box (Up to 256 characters)</p>
+                            </div>
+                        </div>
+                        <p>
+                            Note: Once you submit this transaction, you will have appoximately 3 minutes to
+                            enter your association code into your 2CHK client.</p>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="2CHKassociationsms" class="app-parameters">
+                    <form id="form_assocsms" class="form-horizontal">
+                    <fieldset>
+                        <legend>2CHK Association (SMS)</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="assoc_sms_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Examples: <br />+1 773 555 5555"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone number to SMS</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="assoc_sms_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="sessionTag">
+                                SessionTag</label>
+                            <div class="controls">
+                                <input id="assoc_sms_sessionTag" class="span3 tip sessionTag" type="text" data-content="Generated by the enterprise with a unique value for each new session (transaction) to a given 2CHK Client association. Used by the Authentify service to differentiate between new requests for the 2CHK Client rather than re-sends of a previous request.  For the Sandbox, this field is pre-populated."
+                                    data-original-title="SessionTag" />
+                                <p class="help-block">
+                                    Unique Customer Transaction ID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="message">
+                                Association Detail</label>
+                            <div class="controls">
+                                <textarea id="assoc_sms_detail" class="span5 tip" rows="3" data-content="256-character field to be displayed on the Association Info dialog box on the 2CHK client.<br />Example: For assistance, questions, or comments, please contact our customer support hotline at 1-800-555-1234"
+                                    data-original-title="Association Detail">For assistance, questions, or comments, please contact our customer support hotline at 1-800-555-1234</textarea>
+                                <p class="help-block">
+                                    Text to be displayed in the Association Info dialog box (Up to 256 characters)</p>
+                            </div>
+                        </div>
+                        <p>
+                            Note: Once you submit this transaction, you will have appoximately 3 minutes to
+                            enter your association code into your 2CHK client.</p>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="2CHKnotify" class="app-parameters" onsubmit="return false">
+                    <form id="form_notify" class="form-horizontal">
+                    <fieldset>
+                        <legend>2CHK Notify</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="device_contact">
+                                Device Contact</label>
+                            <div class="controls">
+                                <input id="notify_device_contact" class="span4 tip device-contact" type="text" data-content="2CHK destination device.  Can be populated from the list of saved devices below, or you can manually enter an associated device."
+                                    data-original-title="Device Contact" />
+                                <p class="help-block">
+                                    2CHK destination device - 36 character GUID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="device_contact">
+                            </label>
+                            <div class="controls">
+                                <select id="notify_device_select" class="span4 deviceselect" onchange="$('#notify_device_contact').val($(this).val());">
+                                </select>
+                                <p class="help-block">
+                                    Choose from a saved device that you named during an Association</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="notify_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="sessionTag">
+                                SessionTag</label>
+                            <div class="controls">
+                                <input id="notify_sessionTag" class="span3 tip sessionTag" type="text" data-content="Generated by the enterprise with a unique value for each new session (transaction) to a given 2CHK Client association. Used by the Authentify service to differentiate between new requests for the 2CHK Client rather than re-sends of a previous request.  For the Sandbox, this field is pre-populated."
+                                    data-original-title="SessionTag" />
+                                <p class="help-block">
+                                    Unique Customer Transaction ID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="transactionID">
+                                Transaction ID</label>
+                            <div class="controls">
+                                <input id="notify_transactionID" class="span2 tip" type="text" value="1234" data-content="Free-form, alphanumeric.  This value is generated by the enterprise and is displayed on the 2CHK Client in the transaction detail pop-up message.<br />Example: WX3111033"
+                                    data-original-title="Transaction ID" />
+                                <p class="help-block">
+                                    Alphanumeric value to place in the "Transaction ID" field of the 2CHK transaction</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="transaction_summary">
+                                Transaction Summary</label>
+                            <div class="controls">
+                                <input id="notify_transaction_summary" class="span4 tip" type="text" value="Notify Summary"
+                                    data-content="Free-form, alphanumeric.  This value is displayed on the 2CHK Client in the transaction list.  Example: Wire Xfer to _____, $9,534.78"
+                                    data-original-title="Transaction Summary" />
+                                <p class="help-block">
+                                    Text string to appear as the 2CHK message summary on the 2CHK client</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="message">
+                                Message</label>
+                            <div class="controls">
+                                <textarea id="notify_message" class="span5 tip" rows="3" data-content="Free-form, alphanumeric.  This value is displayed on the 2CHK Client in the transaction detail pop-up message.  Example:<br /> You are requesting a Wire Transfer to  XYZ Bank, Account ending in 9876, in the amount of $9,534.78.  To authorize this transaction, Click 'approve'"
+                                    data-original-title="Message">Notify Message</textarea>
+                                <p class="help-block">
+                                    Message body to place in the "Message" field of the 2CHK transaction</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="buttontxt">
+                                Button Text</label>
+                            <div class="controls">
+                                <input id="notify_buttontxt" class="span2 tip" type="text" value="OK" data-content="2CHK button labels are customizable, allowing you to label them in a fashion that best suits your 2CHK transaction."
+                                    data-original-title="Button Text" />
+                                <p class="help-block">
+                                    Text contents of the acknowledgement button</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="buttontxt">
+                                Help Text</label>
+                            <div class="controls">
+                                <input id="notify_help" class="span4 tip" type="text" value="For assistance call 1-800-555-1234"
+                                    data-content="Sets the help details that appear with the transaction, below the acknowledgement and/or rejection button(s)"
+                                    data-original-title="Help Text" />
+                                <p class="help-block">
+                                    Text contents of help message</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="2CHKinform" class="app-parameters" onsubmit="return false">
+                    <form id="form_inform" class="form-horizontal">
+                    <fieldset>
+                        <legend>2CHK Inform</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="device_contact">
+                                Device Contact</label>
+                            <div class="controls">
+                                <input id="inform_device_contact" class="span4 tip device-contact" type="text" data-content="2CHK destination device.  Can be populated from the list of saved devices below, or you can manually enter an associated device."
+                                    data-original-title="Device Contact" />
+                                <p class="help-block">
+                                    2CHK destination device - 36 character GUID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="device_contact">
+                            </label>
+                            <div class="controls">
+                                <select id="inform_device_select" class="span4 deviceselect" onchange="$('#inform_device_contact').val($(this).val());">
+                                </select>
+                                <p class="help-block">
+                                    Choose from a saved device that you named during an Association</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="inform_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="sessionTag">
+                                SessionTag</label>
+                            <div class="controls">
+                                <input id="inform_sessionTag" class="span3 tip sessionTag" type="text" data-content="Generated by the enterprise with a unique value for each new session (transaction) to a given 2CHK Client association. Used by the Authentify service to differentiate between new requests for the 2CHK Client rather than re-sends of a previous request.  For the Sandbox, this field is pre-populated."
+                                    data-original-title="SessionTag" />
+                                <p class="help-block">
+                                    Unique Customer Transaction ID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="transactionID">
+                                Transaction ID</label>
+                            <div class="controls">
+                                <input id="inform_transactionID" class="span2 tip" type="text" value="1234" data-content="Free-form, alphanumeric.  This value is generated by the enterprise and is displayed on the 2CHK Client in the transaction detail pop-up message.<br />Example: WX3111033"
+                                    data-original-title="Transaction ID" />
+                                <p class="help-block">
+                                    Alphanumeric value to place in the "Transaction ID" field of the 2CHK transaction</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="transaction_summary">
+                                Transaction Summary</label>
+                            <div class="controls">
+                                <input id="inform_transaction_summary" class="span4 tip" type="text" value="Inform Summary"
+                                    data-content="Free-form, alphanumeric.  This value is displayed on the 2CHK Client in the transaction list.  Example: Wire Xfer to _____, $9,534.78"
+                                    data-original-title="Transaction Summary" />
+                                <p class="help-block">
+                                    Text string to appear as the 2CHK message summary on the 2CHK client</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="message">
+                                Message</label>
+                            <div class="controls">
+                                <textarea id="inform_message" class="span5 tip" rows="3" data-content="Free-form, alphanumeric.  This value is displayed on the 2CHK Client in the transaction detail pop-up message.  Example:<br /> You are requesting a Wire Transfer to  XYZ Bank, Account ending in 9876, in the amount of $9,534.78.  To authorize this transaction, Click 'approve'"
+                                    data-original-title="Message">Inform Message</textarea>
+                                <p class="help-block">
+                                    Message body to place in the "Message" field of the 2CHK transaction</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="2CHKconfirm" class="app-parameters" onsubmit="return false">
+                    <form id="form_conform" class="form-horizontal">
+                    <fieldset>
+                        <legend>2CHK Confirm</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="device_contact">
+                                Device Contact</label>
+                            <div class="controls">
+                                <input id="confirm_device_contact" class="span4 tip device-contact" type="text" data-content="2CHK destination device.  Can be populated from the list of saved devices below, or you can manually enter an associated device."
+                                    data-original-title="Device Contact" />
+                                <p class="help-block">
+                                    2CHK destination device - 36 character GUID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="device_contact">
+                            </label>
+                            <div class="controls">
+                                <select id="confirm_device_select" class="span4 deviceselect" onchange="$('#confirm_device_contact').val($(this).val());">
+                                </select>
+                                <p class="help-block">
+                                    Choose from a saved device that you named during an Association</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="confirm_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="sessionTag">
+                                SessionTag</label>
+                            <div class="controls">
+                                <input id="confirm_sessionTag" class="span3 tip sessionTag" type="text" data-content="Generated by the enterprise with a unique value for each new session (transaction) to a given 2CHK Client association. Used by the Authentify service to differentiate between new requests for the 2CHK Client rather than re-sends of a previous request.  For the Sandbox, this field is pre-populated."
+                                    data-original-title="SessionTag" />
+                                <p class="help-block">
+                                    Unique Customer Transaction ID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="transactionID">
+                                Transaction ID</label>
+                            <div class="controls">
+                                <input id="confirm_transactionID" class="span2 tip" type="text" value="1234" data-content="Free-form, alphanumeric.  This value is generated by the enterprise and is displayed on the 2CHK Client in the transaction detail pop-up message.<br />Example: WX3111033"
+                                    data-original-title="Transaction ID" />
+                                <p class="help-block">
+                                    Alphanumeric value to place in the "Transaction ID" field of the 2CHK transaction</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="transaction_summary">
+                                Transaction Summary</label>
+                            <div class="controls">
+                                <input id="confirm_transaction_summary" class="span4 tip" type="text" value="Confirm Summary"
+                                    data-content="Free-form, alphanumeric.  This value is displayed on the 2CHK Client in the transaction list.  Example: Wire Xfer to _____, $9,534.78"
+                                    data-original-title="Transaction Summary" />
+                                <p class="help-block">
+                                    Text string to appear as the 2CHK message summary on the 2CHK client</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="message">
+                                Message</label>
+                            <div class="controls">
+                                <textarea id="confirm_message" class="span5 tip" rows="3" data-content="Free-form, alphanumeric.  This value is displayed on the 2CHK Client in the transaction detail pop-up message.  Example:<br /> You are requesting a Wire Transfer to  XYZ Bank, Account ending in 9876, in the amount of $9,534.78.  To authorize this transaction, Click 'approve'"
+                                    data-original-title="Message">Confirm Message</textarea>
+                                <p class="help-block">
+                                    Message body to place in the "Message" field of the 2CHK transaction</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="buttontxt">
+                                (Confirm) Button Text</label>
+                            <div class="controls">
+                                <input id="confirm_buttontxt" class="span2 tip" type="text" value="Confirm" data-content="2CHK button labels are customizable, allowing you to label them in a fashion that best suits your 2CHK transaction."
+                                    data-original-title="Button Text" />
+                                <p class="help-block">
+                                    Text contents of the acknowledgement button</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="buttontxt">
+                                (Cancel) Button Text</label>
+                            <div class="controls">
+                                <input id="confirm_decline_buttontxt" class="span2 tip" type="text" value="Cancel"
+                                    data-content="2CHK button labels are customizable, allowing you to label them in a fashion that best suits your 2CHK transaction."
+                                    data-original-title="Decline Button Text" />
+                                <p class="help-block">
+                                    Text contents of the "Cancel" button</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="2CHKquery" class="app-parameters" onsubmit="return false">
+                    <form id="form_query" class="form-horizontal">
+                    <fieldset>
+                        <legend>2CHK Query</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="device_contact">
+                                Device Contact</label>
+                            <div class="controls">
+                                <input id="query_device_contact" class="span4 tip device-contact" type="text" data-content="2CHK destination device.  Can be populated from the list of saved devices below, or you can manually enter an associated device."
+                                    data-original-title="Device Contact" />
+                                <p class="help-block">
+                                    2CHK destination device - 36 character GUID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="device_contact">
+                            </label>
+                            <div class="controls">
+                                <select id="query_device_select" class="span4 deviceselect" onchange="$('#query_device_contact').val($(this).val());">
+                                </select>
+                                <p class="help-block">
+                                    Choose from a saved device that you named during an Association</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="query_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="sessionTag">
+                                SessionTag</label>
+                            <div class="controls">
+                                <input id="query_sessionTag" class="span3 tip sessionTag" type="text" data-content="Generated by the enterprise with a unique value for each new session (transaction) to a given 2CHK Client association. Used by the Authentify service to differentiate between new requests for the 2CHK Client rather than re-sends of a previous request.  For the Sandbox, this field is pre-populated."
+                                    data-original-title="SessionTag" />
+                                <p class="help-block">
+                                    Unique Customer Transaction ID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="transactionID">
+                                Transaction ID</label>
+                            <div class="controls">
+                                <input id="query_transactionID" class="span2 tip" type="text" value="1234" data-content="Free-form, alphanumeric.  This value is generated by the enterprise and is displayed on the 2CHK Client in the transaction detail pop-up message.<br />Example: WX3111033"
+                                    data-original-title="Transaction ID" />
+                                <p class="help-block">
+                                    Alphanumeric value to place in the "Transaction ID" field of the 2CHK transaction</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="transaction_summary">
+                                Transaction Summary</label>
+                            <div class="controls">
+                                <input id="query_transaction_summary" class="span4 tip" type="text" value="Query Summary"
+                                    data-content="Free-form, alphanumeric.  This value is displayed on the 2CHK Client in the transaction list.  Example: Wire Xfer to _____, $9,534.78"
+                                    data-original-title="Transaction Summary" />
+                                <p class="help-block">
+                                    Text string to appear as the 2CHK message summary on the 2CHK client</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="message">
+                                Message</label>
+                            <div class="controls">
+                                <textarea id="query_message" class="span5 tip" rows="3" data-content="Free-form, alphanumeric.  This value is displayed on the 2CHK Client in the transaction detail pop-up message.  Example:<br /> You are requesting a Wire Transfer to  XYZ Bank, Account ending in 9876, in the amount of $9,534.78.  To authorize this transaction, Click 'approve'"
+                                    data-original-title="Message">Query Message</textarea>
+                                <p class="help-block">
+                                    Message body to place in the "Message" field of the 2CHK transaction</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="confirmation_number">
+                                Confirmation Number</label>
+                            <div class="controls">
+                                <input id="query_confirmation_number" class="span2 tip" type="text" value="1234"
+                                    data-content="Numeric confirmation number the end-user must enter.  2CHK also supports alphanumeric values and input boxes for this request type."
+                                    data-original-title="Confirmation Number" />
+                                <p class="help-block">
+                                    Confirmation value the user must enter (numeric)</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="buttontxt">
+                                Button Text</label>
+                            <div class="controls">
+                                <input id="query_buttontxt" class="span2 tip" type="text" value="Submit" data-content="2CHK button labels are customizable, allowing you to label them in a fashion that best suits your 2CHK transaction."
+                                    data-original-title="Button Text" />
+                                <p class="help-block">
+                                    Text contents of the "Submit" button</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="buttontxt">
+                                Help Text</label>
+                            <div class="controls">
+                                <input id="query_help" class="span4 tip" type="text" value="For assistance call 1-800-555-1234"
+                                    data-content="Sets the help details that appear with the transaction, below the acknowledgement and/or rejection button(s)"
+                                    data-original-title="Help Text" />
+                                <p class="help-block">
+                                    Text contents of help message</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="2CHKselect" class="app-parameters" onsubmit="return false">
+                    <form id="form_select" class="form-horizontal">
+                    <fieldset>
+                        <legend>2CHK Select</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="device_contact">
+                                Device Contact</label>
+                            <div class="controls">
+                                <input id="select_device_contact" class="span4 tip device-contact" type="text" data-content="2CHK destination device.  Can be populated from the list of saved devices below, or you can manually enter an associated device."
+                                    data-original-title="Device Contact" />
+                                <p class="help-block">
+                                    2CHK destination device - 36 character GUID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="device_contact">
+                            </label>
+                            <div class="controls">
+                                <select id="select_device_select" class="span4 deviceselect" onchange="$('#select_device_contact').val($(this).val());">
+                                </select>
+                                <p class="help-block">
+                                    Choose from a saved device that you named during an Association</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="select_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="sessionTag">
+                                SessionTag</label>
+                            <div class="controls">
+                                <input id="select_sessionTag" class="span3 tip sessionTag" type="text" data-content="Generated by the enterprise with a unique value for each new session (transaction) to a given 2CHK Client association. Used by the Authentify service to differentiate between new requests for the 2CHK Client rather than re-sends of a previous request.  For the Sandbox, this field is pre-populated."
+                                    data-original-title="SessionTag" />
+                                <p class="help-block">
+                                    Unique Customer Transaction ID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="transactionID">
+                                Transaction ID</label>
+                            <div class="controls">
+                                <input id="select_transactionID" class="span2 tip" type="text" value="1234" data-content="Free-form, alphanumeric.  This value is generated by the enterprise and is displayed on the 2CHK Client in the transaction detail pop-up message.<br />Example: WX3111033"
+                                    data-original-title="Transaction ID" />
+                                <p class="help-block">
+                                    Alphanumeric value to place in the "Transaction ID" field of the 2CHK transaction</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="transaction_summary">
+                                Transaction Summary</label>
+                            <div class="controls">
+                                <input id="select_transaction_summary" class="span4 tip" type="text" value="Select Summary"
+                                    data-content="Free-form, alphanumeric.  This value is displayed on the 2CHK Client in the transaction list.  Example: Wire Xfer to _____, $9,534.78"
+                                    data-original-title="Transaction Summary" />
+                                <p class="help-block">
+                                    Text string to appear as the 2CHK message summary on the 2CHK client</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="message">
+                                (Question) Message</label>
+                            <div class="controls">
+                                <textarea id="select_message" class="span5 tip" rows="3" data-content="Free-form, alphanumeric.  This value is displayed on the 2CHK Client in the transaction detail pop-up message.  Example:<br /> What is your current street address?"
+                                    data-original-title="Message">Question</textarea>
+                                <p class="help-block">
+                                    Message body to place in the "Message" field of the 2CHK transaction</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="options">
+                                Correct Option</label>
+                            <div class="controls">
+                                <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+                                <div class="btn-group tip" data-toggle="buttons-radio" data-content="Select the desired correct response from one of the four potential answers below.">
+                                    <button class="btn btn-primary active optionval">
+                                        0</button>
+                                    <button class="btn btn-primary optionval">
+                                        1</button>
+                                    <button class="btn btn-primary optionval">
+                                        2</button>
+                                    <button class="btn btn-primary optionval">
+                                        3</button>
+                                </div>
+                                <p class="help-block">
+                                    Select the correct answer</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="option0">
+                                Option 0</label>
+                            <div class="controls">
+                                <input id="select_option0" class="span4 tip" type="text" value="Option 0" data-content="First potential answer to the question asked in the 'Message' field."
+                                    data-original-title="Option Zero" />
+                                <p class="help-block">
+                                    First answer option to be provided to end user</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="option1">
+                                Option 1</label>
+                            <div class="controls">
+                                <input id="select_option1" class="span4 tip" type="text" value="Option 1" data-content="Second potential answer to the question asked in the 'Message' field."
+                                    data-original-title="Option One" />
+                                <p class="help-block">
+                                    Second answer option to be provided to end user</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="option2">
+                                Option 2</label>
+                            <div class="controls">
+                                <input id="select_option2" class="span4 tip" type="text" value="Option 2" data-content="Third potential answer to the question asked in the 'Message' field."
+                                    data-original-title="Option Two" />
+                                <p class="help-block">
+                                    Third answer option to be provided to end user</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="option3">
+                                Option 3</label>
+                            <div class="controls">
+                                <input id="select_option3" class="span4 tip" type="text" value="Option 3" data-content="Fourth potential answer to the question asked in the 'Message' field."
+                                    data-original-title="Option Three" />
+                                <p class="help-block">
+                                    Fourth answer option to be provided to end user</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="option_type">
+                                Option Display Type</label>
+                            <div class="controls">
+                                <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+                                <div class="btn-group" data-toggle="buttons-radio">
+                                    <button class="btn btn-primary active optiontype">
+                                        dropdown</button>
+                                    <button class="btn btn-primary optiontype">
+                                        radio</button>
+                                </div>
+                                <p class="help-block">
+                                    Select the way answer options will be presented to the end user</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="buttontxt">
+                                Button Text</label>
+                            <div class="controls">
+                                <input id="select_buttontxt" class="span2 tip" type="text" value="Submit" data-content="2CHK button labels are customizable, allowing you to label them in a fashion that best suits your 2CHK transaction."
+                                    data-original-title="Button Text" />
+                                <p class="help-block">
+                                    Text contents of the "Submit" button</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="buttontxt">
+                                Help Text</label>
+                            <div class="controls">
+                                <input id="select_help" class="span4 tip" type="text" value="For assistance call 1-800-555-1234"
+                                    data-content="Sets the help details that appear with the transaction, below the acknowledgement and/or rejection button(s)"
+                                    data-original-title="Help Text" />
+                                <p class="help-block">
+                                    Text contents of help message</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="2CHKmaint" class="app-parameters" onsubmit="return false">
+                    <form id="form_contact_maint" class="form-horizontal">
+                    <fieldset>
+                        <legend>2CHK Contact Maintenance</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="device_contact">
+                                Device Contact</label>
+                            <div class="controls">
+                                <input id="contact_maint_device_contact" class="span4 tip device-contact" type="text"
+                                    data-content="2CHK destination device.  Can be populated from the list of saved devices below, or you can manually enter an associated device."
+                                    data-original-title="Device Contact" />
+                                <p class="help-block">
+                                    2CHK destination device - 36 character GUID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="device_contact">
+                            </label>
+                            <div class="controls">
+                                <select id="contact_maint_device_select" class="span4 deviceselect" onchange="$('#contact_maint_device_contact').val($(this).val());">
+                                </select>
+                                <p class="help-block">
+                                    Choose from a saved device that you named during an Association</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="contact_maint_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="sessionTag">
+                                SessionTag</label>
+                            <div class="controls">
+                                <input id="contact_maint_sessionTag" class="span3 tip sessionTag" type="text" data-content="Generated by the enterprise with a unique value for each new session (transaction) to a given 2CHK Client association. Used by the Authentify service to differentiate between new requests for the 2CHK Client rather than re-sends of a previous request.  For the Sandbox, this field is pre-populated."
+                                    data-original-title="SessionTag" />
+                                <p class="help-block">
+                                    Unique Customer Transaction ID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="action">
+                                Action</label>
+                            <div class="controls">
+                                <!-- Add data-toggle="buttons-radio" for radio style toggling on btn-group -->
+                                <div class="btn-group" data-toggle="buttons-radio" id="contact_maint_action">
+                                    <button class="btn btn-primary active optionaction" data-toggle="button">
+                                        query</button>
+                                    <button class="btn btn-primary optionaction">
+                                        delete</button>
+                                </div>
+                                <p class="help-block">
+                                    'query' returns the status of the specified 2CHK association<br />
+                                    'delete' removes the specified association</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="BioCapture" class="app-parameters" onsubmit="return false">
+                    <form id="form_biocapture" class="form-horizontal">
+                    <fieldset>
+                        <legend>BioCapture</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="biocapture_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Use 'x' to dial extensions. Examples: <br />+1 773 555 5555<br />+44 02012345678x1234"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone number to dial</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="biocapture_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Language">
+                                Language
+                            </label>
+                            <div class="controls">
+                                <select id="biocapture_language" class="span2">
+                                    <option>en-us</option>
+                                    <option>es-es</option>
+                                    <option>fr-fr</option>
+                                    <option>zh-cn</option>
+                                    <option>ja-jp</option>
+                                </select>
+                                <p class="help-block">
+                                    Language to place call as (ISO-639 format)</p>
+                            </div>
+                        </div>
+                        <div class="control-group bio-confirm" id="biocapture1">
+                            <label class="control-label" for="Confirmation Number 1">
+                                Confirmation Number 1
+                            </label>
+                            <div class="controls">
+                                <input id="biocapture_confirm1" class="span2 tip" type="tel" value="5837490312" data-content="One of three ten-digit sequences used to build the voice print. Confirmation numbers should contain all 10 digits in random order, with no repeating digits, to maximize print strength."
+                                    data-original-title="Confirmation Number" />
+                                <p class="help-block">
+                                    First confirmation number to be spoken</p>
+                            </div>
+                        </div>
+                        <div class="control-group bio-confirm" id="biocapture2">
+                            <label class="control-label" for="Confirmation Number 2">
+                                Confirmation Number 2
+                            </label>
+                            <div class="controls">
+                                <input id="biocapture_confirm2" class="span2 tip" type="tel" value="5837490312" data-content="One of three ten-digit sequences used to build the voice print. Confirmation numbers should contain all 10 digits in random order, with no repeating digits, to maximize print strength."
+                                    data-original-title="Confirmation Number" />
+                                <p class="help-block">
+                                    Second confirmation number to be spoken</p>
+                            </div>
+                        </div>
+                        <div class="control-group bio-confirm" id="biocapture3">
+                            <label class="control-label" for="Confirmation Number 3">
+                                Confirmation Number 3
+                            </label>
+                            <div class="controls">
+                                <input id="biocapture_confirm3" class="span2 tip" type="tel" value="5837490312" data-content="One of three ten-digit sequences used to build the voice print. Confirmation numbers should contain all 10 digits in random order, with no repeating digits, to maximize print strength."
+                                    data-original-title="Confirmation Number" />
+                                <p class="help-block">
+                                    Third and final confirmation number to be spoken</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="BioVerify" class="app-parameters" onsubmit="return false">
+                    <form id="form_bioverify" class="form-horizontal">
+                    <fieldset>
+                        <legend>BioVerify</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="bioverify_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Use 'x' to dial extensions. Examples: <br />+1 773 555 5555<br />+44 02012345678x1234"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone number to dial</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="bioverify_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Language">
+                                Language
+                            </label>
+                            <div class="controls">
+                                <select id="bioverify_language" class="span2">
+                                    <option>en-us</option>
+                                    <option>es-es</option>
+                                    <option>fr-fr</option>
+                                    <option>zh-cn</option>
+                                    <option>ja-jp</option>
+                                </select>
+                                <p class="help-block">
+                                    Language to place call as (ISO-639 format)</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="VID">
+                                Voice Print ID (VID)
+                            </label>
+                            <div class="controls">
+                                <input id="bioverify_vid" class="span4 vid tip" type="text" data-content="User's VID value goes here.  VIDs are a 38-character identifier value of an enrolled  user's voice print, provided to you after a successful biometric enrollment via the BioCapture application."
+                                    data-original-title="VID" />
+                                <p class="help-block">
+                                    Voice print ID (38-character GUID) to compare callee against</p>
+                            </div>
+                        </div>
+                        <div class="control-group bio-confirm" id="bioverify1">
+                            <label class="control-label" for="Confirmation Number 1">
+                                Confirmation Number 1
+                            </label>
+                            <div class="controls">
+                                <input id="bioverify_confirm1" class="span2 tip" type="tel" value="5837490312" data-content="One of four ten-digit sequences used to verify a user's voice print. Confirmation numbers should contain all 10 digits in random order, with no repeating digits, to provide the Biometric engine with as much information to match against as possible."
+                                    data-original-title="Confirmation Number" />
+                                <p class="help-block">
+                                    Confirmation number to be spoken on first print match attempt</p>
+                            </div>
+                        </div>
+                        <div class="control-group bio-confirm" id="bioverify2">
+                            <label class="control-label" for="Confirmation Number 2">
+                                Confirmation Number 2
+                            </label>
+                            <div class="controls">
+                                <input id="bioverify_confirm2" class="span2 tip" type="tel" value="2130947385" data-content="One of four ten-digit sequences used to verify a user's voice print. Confirmation numbers should contain all 10 digits in random order, with no repeating digits, to provide the Biometric engine with as much information to match against as possible."
+                                    data-original-title="Confirmation Number" />
+                                <p class="help-block">
+                                    Confirmation number to be spoken on second print match attempt</p>
+                            </div>
+                        </div>
+                        <div class="control-group bio-confirm" id="bioverify3">
+                            <label class="control-label" for="Confirmation Number 3">
+                                Confirmation Number 3
+                            </label>
+                            <div class="controls">
+                                <input id="bioverify_confirm3" class="span2 tip" type="tel" value="8573204169" data-content="One of four ten-digit sequences used to verify a user's voice print. Confirmation numbers should contain all 10 digits in random order, with no repeating digits, to provide the Biometric engine with as much information to match against as possible."
+                                    data-original-title="Confirmation Number" />
+                                <p class="help-block">
+                                    Confirmation number to be spoken on third print match attempt</p>
+                            </div>
+                        </div>
+                        <div class="control-group bio-confirm" id="bioverify4">
+                            <label class="control-label" for="Confirmation Number 4">
+                                Confirmation Number 4
+                            </label>
+                            <div class="controls">
+                                <input id="bioverify_confirm4" class="span2 tip" type="tel" value="2549763081" data-content="One of four ten-digit sequences used to verify a user's voice print. Confirmation numbers should contain all 10 digits in random order, with no repeating digits, to provide the Biometric engine with as much information to match against as possible."
+                                    data-original-title="Confirmation Number" />
+                                <p class="help-block">
+                                    Confirmation number to be spoken on fourth and final print match attempt</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="DataLookup" class="app-parameters">
+                    <form id="form_datalookup" class="form-horizontal">
+                    <fieldset>
+                        <legend>Data Lookup</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="datalookup_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Examples: <br />+1 773 555 5555"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Performs data lookup against this phone number</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="datalookup_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                First Name</label>
+                            <div class="controls">
+                                <input id="datalookup_firstname" class="span3 tip" type="text" data-content="Attempts to match the first name in this field.   The final result will contain a match parameter for the relevant tag where 0 indicates No match, 1 indicates match, and 2 indicates no data"
+                                    rel="popover" data-original-title="First Name" />
+                                <p class="help-block">
+                                    Subject's First Name</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                Last Name</label>
+                            <div class="controls">
+                                <input id="datalookup_lastname" class="span3 tip" type="text" data-content="Attempts to match the last name in this field.   The final result will contain a match parameter for the relevant tag where 0 indicates No match, 1 indicates match, and 2 indicates no data"
+                                    rel="popover" data-original-title="Last Name" />
+                                <p class="help-block">
+                                    Subject's Last Name</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                Street Address</label>
+                            <div class="controls">
+                                <input id="datalookup_address" class="span3 tip" type="text" data-content="Attempts to match the street address in this field. The final result will contain a match parameter for the relevant tag where 0 indicates No match, 1 indicates match, and 2 indicates no data"
+                                    rel="popover" data-original-title="Street Address" />
+                                <p class="help-block">
+                                    Subject's Street Address</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                Postal Code</label>
+                            <div class="controls">
+                                <input id="datalookup_zip" class="span2 tip" type="text" data-content="Attempts to match the postal code in this field. The final result will contain a match parameter for the relevant tag where 0 indicates No match, 1 indicates match, and 2 indicates no data"
+                                    rel="popover" data-original-title="Postal Code" />
+                                <p class="help-block">
+                                    Subject's Postal Code</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="NumberInfo" class="app-parameters">
+                    <form id="form_numberinfo" class="form-horizontal">
+                    <fieldset>
+                        <legend>Number Information</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="numberinfo_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Examples: <br />+1 773 555 5555"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone Number to parse</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="numberinfo_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="LNP" class="app-parameters">
+                    <form id="form_lnp" class="form-horizontal">
+                    <fieldset>
+                        <legend>LNP Lookup</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="lnp_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Examples: <br />+1 773 555 5555"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone Number</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="lnp_ASID" class="span3 tip" type="text" value="Customer_Identifier" data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="BNS" class="app-parameters">
+                    <form id="form_bns" class="form-horizontal">
+                    <fieldset>
+                        <legend>BNS Lookup</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="bns_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Examples: <br />+1 773 555 5555"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone Number</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="bns_ASID" class="span3 tip" type="text" value="Customer_Identifier" data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="CNAM" class="app-parameters">
+                    <form id="form_cnam" class="form-horizontal">
+                    <fieldset>
+                        <legend>CNAM Lookup</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="cnam_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Examples: <br />+1 773 555 5555"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone Number</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="cnam_ASID" class="span3 tip" type="text" value="Customer_Identifier" data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="GeoLocate" class="app-parameters">
+                    <form id="form_geolocate" class="form-horizontal">
+                    <fieldset>
+                        <legend>Geo Location Lookup</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="geolocate_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Examples: <br />+1 773 555 5555"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone Number to geolocate (Country code 1 only)</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="geolocate_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Postal Code">
+                                Postal Code</label>
+                            <div class="controls">
+                                <input id="geolocate_zip" class="span2 tip" type="text" value="60631" data-content="Postal code to calculate the lookup distance from"
+                                    rel="popover" data-original-title="Postal Code" />
+                                <p class="help-block">
+                                    Postal Code Starting point</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="SMSDelivery" class="app-parameters">
+                    <form id="form_smsdelivery" class="form-horizontal">
+                    <fieldset>
+                        <legend>SMSDelivery</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="smsdelivery_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Examples: <br />+1 773 555 5555"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone Number to SMS</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="smsdelivery_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                Message Text</label>
+                            <div class="controls">
+                                <input id="smsdelivery_message" class="span5 tip" type="text" value="Msg from Sandbox: Your PIN is 1234"
+                                    data-content="Contents of SMS message, supports a maximum of 100 characters.  Messages to country-code 1 will contain a fixed compliance message appended to the end of the message.  Non-ASCII characters may use more than 2 bytes, limiting the message length."
+                                    rel="popover" data-original-title="Message Text" />
+                                <p class="help-block">
+                                    Message (100-characters max)</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="Affirmation" class="app-parameters">
+                    <form id="form_affirmation" class="form-horizontal">
+                    <fieldset>
+                        <legend>Affirmation</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="affirmation_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Examples: <br />+1 773 555 5555"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone Number to Call</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="affirmation_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Language">
+                                Language
+                            </label>
+                            <div class="controls">
+                                <select id="affirmation_language" class="span2">
+                                    <option>en-us</option>
+                                    <option>es-es</option>
+                                    <option>fr-fr</option>
+                                    <option>ja-jp</option>
+                                    <option>zh-cn</option>
+                                </select>
+                                <p class="help-block">
+                                    Language to place call as (ISO-639 format)</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Affirmation">
+                                Affirmation
+                            </label>
+                            <div class="controls">
+                                <select id="affirmation_affirmation" class="span2">
+                                    <option>random</option>
+                                    <option>Pound</option>
+                                    <option>Hash</option>
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                </select>
+                                <p class="help-block">
+                                    User Affirmation Digit</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="PinDelivery" class="app-parameters">
+                    <form id="form_pindelivery" class="form-horizontal">
+                    <fieldset>
+                        <legend>PinDelivery</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="pindelivery_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Examples: <br />+1 773 555 5555"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone Number to Call</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="pindelivery_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Language">
+                                Language
+                            </label>
+                            <div class="controls">
+                                <select id="pindelivery_language" class="span2">
+                                    <option>en-us</option>
+                                    <option>es-es</option>
+                                    <option>fr-fr</option>
+                                    <option>ja-jp</option>
+                                    <option>zh-cn</option>
+                                </select>
+                                <p class="help-block">
+                                    Language to place call as (ISO-639 format)</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                PIN</label>
+                            <div class="controls">
+                                <input id="pindelivery_pin" class="span2 tip" type="text" value="1234" data-content="The PIN that will be spoken to the user, between 4 and 10 digits in length."
+                                    rel="popover" data-original-title="PIN" />
+                                <p class="help-block">
+                                    PIN to deliver (4 to 10 digits)</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="PhoneConfirm" class="app-parameters">
+                    <form id="form_phoneconfirm" class="form-horizontal">
+                    <fieldset>
+                        <legend>PhoneConfirm</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="phoneconfirm_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Examples: <br />+1 773 555 5555"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone Number to Call</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="phoneconfirm_ASID" class="span3 tip" type="text" value="Customer_Identifier"
+                                    data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Language">
+                                Language
+                            </label>
+                            <div class="controls">
+                                <select id="phoneconfirm_language" class="span2">
+                                    <option>en-us</option>
+                                    <option>es-es</option>
+                                    <option>fr-fr</option>
+                                    <option>ja-jp</option>
+                                    <option>zh-cn</option>
+                                </select>
+                                <p class="help-block">
+                                    Language to place call as (ISO-639 format)</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                Confirmation Number</label>
+                            <div class="controls">
+                                <input id="phoneconfirm_conf" class="span2 tip" type="text" value="1234" data-content="The user will be required to correctly enter and/or speak the confirmation number specified in this field."
+                                    rel="popover" data-original-title="Confirmation Number" />
+                                <p class="help-block">
+                                    Confirmation Number (4 to 10 digits)</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="TransactionVerify" class="app-parameters">
+                    <form id="form_tv" class="form-horizontal">
+                    <fieldset>
+                        <legend>TransactionVerify</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="phonenumber">
+                                Phone Number</label>
+                            <div class="controls">
+                                <input id="tv_number" class="span3 tip" type="tel" data-content="Telephone number, country code first. Examples: <br />+1 773 555 5555"
+                                    data-original-title="Phone Number" />
+                                <p class="help-block">
+                                    Phone Number to Call</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ASID">
+                                ASID</label>
+                            <div class="controls">
+                                <input id="tv_ASID" class="span3 tip" type="text" value="Customer_Identifier" data-content="Unique identifier representing the end-user (or a transaction) as assigned by the enterprise.> Avoid including any private or sensitive customer information."
+                                    rel="popover" data-original-title="ASID" />
+                                <p class="help-block">
+                                    Authentify Subject ID.</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Language">
+                                Language
+                            </label>
+                            <div class="controls">
+                                <select id="tv_language" class="span2">
+                                    <option>en-us</option>
+                                    <option>es-es</option>
+                                    <option>fr-fr</option>
+                                    <option>ja-jp</option>
+                                    <option>zh-cn</option>
+                                </select>
+                                <p class="help-block">
+                                    Language to place call as (ISO-639 format)</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Language">
+                                Currency
+                            </label>
+                            <div class="controls">
+                                <select id="tv_currency" class="span2">
+                                    <option>USD</option>
+                                    <option>AUD</option>
+                                    <option>CAD</option>
+                                    <option>CNY</option>
+                                    <option>EUR</option>
+                                    <option>GBP</option>
+                                    <option>HKD</option>
+                                    <option>INR</option>
+                                    <option>JPY</option>
+                                    <option>MXN</option>
+                                    <option>NZD</option>
+                                    <option>SGD</option>
+                                </select>
+                                <p class="help-block">
+                                    Currency of Transaction</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Amount">
+                                Amount</label>
+                            <div class="controls">
+                                <input id="tv_amount" class="span2 tip" type="text" value="10" data-content="Amount to be spoken to the user when reading the transaction details to the end user."
+                                    rel="popover" data-original-title="Amount" />
+                                <p class="help-block">
+                                    Whole number of the amount. The '10' in '$10.25'</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Fraction">
+                                Fraction</label>
+                            <div class="controls">
+                                <input id="tv_fraction" class="span2 tip" type="text" value="99" data-content="Fraction to be spoken to the user when reading the transaction details to the end user."
+                                    rel="popover" data-original-title="Fraction" />
+                                <p class="help-block">
+                                    Fraction of the amount. The .25 in $10.25</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="To Account">
+                                To Account</label>
+                            <div class="controls">
+                                <input id="tv_to_account" class="span2 tip" type="text" value="5678" data-content="Digits to be spoken as the last four digits of the destination account when reading the transaction details to the end-user."
+                                    rel="popover" data-original-title="To Account" />
+                                <p class="help-block">
+                                    Last four digits of the destination account</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Confirmation Number">
+                                Confirmation Number</label>
+                            <div class="controls">
+                                <input id="tv_conf" class="span2 tip" type="text" value="1234" data-content="The user will be required to correctly enter and/or speak the confirmation number specified in this field."
+                                    rel="popover" data-original-title="Confirmation Number" />
+                                <p class="help-block">
+                                    Confirmation Number (4 to 10 digits)</p>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+                <div id="selectionArea" style="display: none">
+                    <form class="well form-inline">
+                    <label class="control-label" for="Environment" id="envlabel">
+                        Environment</label>
+                    <select id="Selectenvironment" class="span2">
+                    </select>&nbsp;
+                    <label class="control-label" for="Account" id="acclabel">
+                        Account</label>
+                    <select id="SelectAccount">
+                    </select>
+                    </form>
+                </div>
+                <div id="FixedParameters" style="display: block">
+                    <legend></legend>
+                    <center>
+                        <button id="submitbutton" class="btn btn-large btn-primary">
+                            Submit Transaction</button>
+                        <button id="stopbutton" class="btn btn-large btn-danger" disabled="">
+                            Stop</button></center>
+                    <form id="form_fixedparams" class="form-horizontal">
+                    <fieldset>
+                        <legend>Fixed Parameters</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="TSOID">
+                                TSOID</label>
+                            <div class="controls">
+                                <span id="fixedparams_TSOID" class="span3 uneditable-input"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Application">
+                                Application</label>
+                            <div class="controls">
+                                <span id="fixedparams_application" class="span4 uneditable-input"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="Account">
+                                Account</label>
+                            <div class="controls">
+                                <span id="fixedparams_account" class="span4 uneditable-input"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="environment">
+                                Service URL</label>
+                            <div class="controls">
+                                <span id="fixedparams_environment" class="span4 uneditable-input"></span>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div id="testy" class="span4 offset8 xmlfixed">
+                <div class="row">
+                    <div class="span2">
+                        <legend>XML Sent</legend>
+                        <div id="InitialReq">
+                        </div>
+                        <div id="PollReq">
+                        </div>
+                        <div id="FinalPoll">
+                        </div>
+                    </div>
+                    <div class="span2">
+                        <legend>XML Received</legend>
+                        <div id="InitialResp">
+                        </div>
+                        <div id="PollResp">
+                        </div>
+                        <div id="FinalResp">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span4" id="showteid">
+                    </div>
+                    <div class="span4" id="showresult">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="showxmlmodal" class="modal hide fade in" style="display: none;">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal">&times;</a>
+            <h3 id="xmlmodalheader">
+            </h3>
+        </div>
+        <div class="modal-body">
+            <pre id="xmlpre" class="prettyprint"></pre>
+        </div>
+    </div>
+</body>
+</html>
